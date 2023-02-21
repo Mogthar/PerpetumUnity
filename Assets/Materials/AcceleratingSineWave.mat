@@ -76,7 +76,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - LoopTime: 2.6794605
+    - LoopTime: 5.9184284
     - Vector1_460252bc289d466abe8238fdf3f7e3d2: 0.5
     - Vector1_cefbf0f05dab47fd87ca04614f18293a: 0.05
     - Vector1_dd7848dd154845efaf81770236c5834e: 5
