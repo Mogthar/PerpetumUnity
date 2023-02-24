@@ -22,25 +22,25 @@ public class Platform : MonoBehaviour
         movementDirection = Vector3.Normalize(end.position - start.position);
         transform.position = start.position + distanceToEnd * fractionalOffset * movementDirection;
 
-        // give the object its initial velocity
+        // get the rigidbody of the component
         rigidBody = GetComponent<Rigidbody>();
-        rigidBody.velocity = movementDirection * movementSpeed;
-
-        // check if end is about to be reached and reflect the velocity if yes
-        Reflect();
     }
 
     // Update is called once per frame
     void FixedUpdate() 
     {
-        Reflect();
+        Move();
     }
 
-    void Reflect()
+    void Move()
     {
         distanceToEnd = Vector3.Distance(transform.position, end.position);
-        float distanceIncrement = movementSpeed * Time.fixedDeltaTime;
-        if(distanceIncrement > distanceToEnd)
+        float distanceIncrement = movementSpeed * Time.deltaTime;
+        if(distanceIncrement < distanceToEnd)
+        {
+            transform.position = transform.position + movementDirection * distanceIncrement;
+        }
+        else
         {
             distanceIncrement -= distanceToEnd;
 
@@ -48,13 +48,55 @@ public class Platform : MonoBehaviour
             Transform startPlaceholder = start;
             start = end;
             end = startPlaceholder;
+
+            // reflect movement direction
             movementDirection = Vector3.Normalize(end.position - start.position);
 
             // place the body where it should be after reflection and reverse its velocity
-            rigidBody.MovePosition(start.position + distanceIncrement * movementDirection);
-            rigidBody.velocity = movementDirection * movementSpeed;
+            transform.position = start.position + movementDirection * distanceIncrement;
         }
     }
+
+    public Vector3 GetMovementDirection()
+    {
+        return movementDirection;
+    }
+
+    public float GetMovementSpeed()
+    {
+        return movementSpeed;
+    }
+
+    /* void FixedUpdate() 
+    {
+        Move();
+    }
+
+    void Move()
+    {
+        distanceToEnd = Vector3.Distance(transform.position, end.position);
+        float distanceIncrement = movementSpeed * Time.fixedDeltaTime;
+        if(distanceIncrement < distanceToEnd)
+        {
+            rigidBody.MovePosition(transform.position + movementDirection * distanceIncrement);
+        }
+        else
+        {
+            distanceIncrement -= distanceToEnd;
+
+            // swap end and beginning
+            Transform startPlaceholder = start;
+            start = end;
+            end = startPlaceholder;
+
+            // reflect movement direction
+            movementDirection = Vector3.Normalize(end.position - start.position);
+
+            // place the body where it should be after reflection and reverse its velocity
+            rigidBody.MovePosition(start.position + movementDirection * distanceIncrement);
+        }
+    }
+    */
 
 
 }

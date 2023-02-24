@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     // internal variables
     Vector3 movementDirection;
     Vector2 rotationIncrement;
-    bool isGrounded = true;
+    [SerializeField] bool isGrounded = true;
     bool isJumping = false;
 
     // component references
@@ -132,6 +132,7 @@ public class PlayerController : MonoBehaviour
 
     void OnJump()
     {
+        Debug.Log(Vector3.down * (capsuleCollider.height / 2 - groundSphereOffsetFromBottom));
         if(isGrounded)
         {
             isJumping = true;
